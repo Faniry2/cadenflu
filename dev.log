@@ -1,0 +1,18 @@
+
+> cadenflu@0.1.0 dev
+> vite
+
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m1144[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m8090[22m/[39m
+[2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+[2m15:00:02[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m15:00:02[22m [36m[1m[vite][22m[39m server restarted.
+[2m16:01:36[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m16:01:36[22m [36m[1m[vite][22m[39m server restarted.
+[2m16:04:02[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m16:04:02[22m [36m[1m[vite][22m[39m server restarted.
+[2m16:04:05[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m
+[2m16:04:05[22m [36m[1m[vite][22m[39m server restarted.
+^C

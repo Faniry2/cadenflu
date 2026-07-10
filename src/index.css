@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply h-full;
+  }
+  body {
+    @apply h-full antialiased;
+  }
+  #root {
+    @apply h-full;
+  }
+}
+
+/* react-big-calendar overrides */
+.rbc-cadenflu .rbc-toolbar button {
+  @apply text-sm font-medium text-gray-700 border-gray-200 rounded-md;
+}
+.rbc-cadenflu .rbc-toolbar button:hover {
+  @apply bg-gray-100;
+}
+.rbc-cadenflu .rbc-toolbar button.rbc-active {
+  @apply bg-indigo-50 text-indigo-700 border-indigo-200;
+}
+.rbc-cadenflu .rbc-event {
+  @apply rounded text-xs font-medium shadow-sm;
+}
+.rbc-cadenflu .rbc-today {
+  @apply bg-indigo-50;
+}
+
+/* Drag-and-drop — event en cours de déplacement */
+.rbc-cadenflu .rbc-addons-dnd-drag-preview {
+  opacity: 0.75;
+  outline: 2px dashed #6366f1;
+  outline-offset: 1px;
+  border-radius: 4px;
+}
+
+/* Slot cible pendant le drag */
+.rbc-cadenflu .rbc-addons-dnd-over {
+  background-color: #eef2ff !important; /* indigo-50 */
+}
+
+/* Poignée de redimensionnement */
+.rbc-cadenflu .rbc-addons-dnd-resize-ns-anchor,
+.rbc-cadenflu .rbc-addons-dnd-resize-ew-anchor {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.rbc-cadenflu .rbc-event:hover .rbc-addons-dnd-resize-ns-anchor,
+.rbc-cadenflu .rbc-event:hover .rbc-addons-dnd-resize-ew-anchor {
+  opacity: 1;
+}
+.rbc-cadenflu .rbc-addons-dnd-resize-ns-anchor .rbc-addons-dnd-resize-ns-icon,
+.rbc-cadenflu .rbc-addons-dnd-resize-ew-anchor .rbc-addons-dnd-resize-ew-icon {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Popup "+N de plus" */
+.rbc-cadenflu .rbc-overlay {
+  @apply bg-white border border-gray-200 rounded-xl shadow-lg p-2 z-50;
+  min-width: 180px;
+}
+.rbc-cadenflu .rbc-overlay-header {
+  @apply text-xs font-semibold text-gray-500 uppercase tracking-wide px-2 py-1 mb-1 border-b border-gray-100;
+}
+.rbc-cadenflu .rbc-show-more {
+  @apply text-xs font-medium text-indigo-600 hover:text-indigo-800 mt-0.5 px-1;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
