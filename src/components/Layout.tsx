@@ -10,6 +10,7 @@ const navItems = [
   { to: '/agenda', label: 'Vue multiple', icon: '▦' },
   { to: '/gantt', label: 'Gantt', icon: '▬' },
   { to: '/clients', label: 'Clients', icon: '👤' },
+  { to: '/tasks', label: 'Tâches', icon: '✓' },
   { to: '/reports', label: 'Récapitulatif', icon: '📊' },
   { to: '/calendars', label: 'Agendas', icon: '📋' },
   { to: '/settings', label: 'Paramètres', icon: '⚙️' },

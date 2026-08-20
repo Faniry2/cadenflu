@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from 'react'
 import { events } from '../api/endpoints'
-import type { CheckConflictsRequest, ConflictDetail } from '../api/types'
+import type { CheckConflictsRequest, ConflictDetail } from '../api/models'
 
 export function useConflictCheck() {
   const [conflicts, setConflicts] = useState<ConflictDetail[]>([])

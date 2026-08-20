@@ -8,7 +8,8 @@ import { useEvents } from '../hooks/useEvents'
 import { useAuthStore } from '../store/authStore'
 import { utcIsoToLocalDate, toLocal, localToUTCIso } from '../utils/datetime'
 import { EventForm } from './EventForm'
-import type { EventReadWithClient, SlotSuggestion } from '../api/types'
+import type { EventRead, SlotSuggestion } from '../api/models'
+import { clientDisplayName } from '../utils/clientType'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 const localizer = luxonLocalizer(DateTime, { firstDayOfWeek: 1 })
@@ -34,7 +35,7 @@ interface RbcEvent {
   start: Date
   end: Date
   allDay: boolean
-  resource: EventReadWithClient
+  resource: EventRead
 }
 
 function EventItem({
@@ -134,7 +135,7 @@ export const AgendaColumn = memo(function AgendaColumn({ calendarId }: AgendaCol
         start: utcIsoToLocalDate(e.start_utc, timezone),
         end: utcIsoToLocalDate(e.end_utc, timezone),
         allDay: e.all_day,
-        resource: e as EventReadWithClient,
+        resource: e as EventRead,
       })),
     [eventsData, timezone]
   )
@@ -156,7 +157,7 @@ export const AgendaColumn = memo(function AgendaColumn({ calendarId }: AgendaCol
         <EventItem
           event={event}
           clientColor={client?.color}
-          clientName={client?.name}
+          clientName={client ? clientDisplayName(client) : undefined}
           clientTimezone={client?.timezone}
           userTimezone={timezone}
         />

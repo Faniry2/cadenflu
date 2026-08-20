@@ -3,7 +3,7 @@ import { Calendar, luxonLocalizer } from 'react-big-calendar'
 import { DateTime } from 'luxon'
 import { useNavigate } from 'react-router-dom'
 import { utcIsoToLocalDate, localToUTCIso } from '../utils/datetime'
-import type { FreeSlot, EventReadWithClient, CalendarRead, ClientRead } from '../api/types'
+import type { FreeSlot, EventRead, CalendarRead, ClientRead } from '../api/models'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 const localizer = luxonLocalizer(DateTime, { firstDayOfWeek: 1 })
@@ -14,12 +14,12 @@ interface RbcEvent {
   start: Date
   end: Date
   allDay: boolean
-  resource: EventReadWithClient | FreeSlot
+  resource: EventRead | FreeSlot
   kind: 'event' | 'slot'
 }
 
 interface Props {
-  events: EventReadWithClient[]
+  events: EventRead[]
   freeSlots: FreeSlot[]
   calMap: Record<string, CalendarRead>
   clientMap: Record<string, ClientRead>
@@ -66,7 +66,7 @@ export function TodayAgendaView({ events, freeSlots, calMap, clientMap, timezone
 
   const eventPropGetter = useCallback(
     (event: RbcEvent) => {
-      const e = event.resource as EventReadWithClient
+      const e = event.resource as EventRead
       const client = e.client_id ? clientMap[e.client_id] : undefined
       const cal = calMap[e.calendar_id]
       const color = client?.color ?? cal?.color ?? '#6366f1'

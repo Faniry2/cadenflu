@@ -1,1 +1,4714 @@
-{"openapi":"3.1.0","info":{"title":"Cadenflu API","version":"1.0.0"},"paths":{"/auth/register":{"post":{"tags":["auth"],"summary":"Register","operationId":"register_auth_register_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UserCreate"}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/UserRead"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/auth/login":{"post":{"tags":["auth"],"summary":"Login","operationId":"login_auth_login_post","requestBody":{"content":{"application/x-www-form-urlencoded":{"schema":{"$ref":"#/components/schemas/Body_login_auth_login_post"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/TokenResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/auth/refresh":{"post":{"tags":["auth"],"summary":"Refresh","operationId":"refresh_auth_refresh_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RefreshRequest"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/TokenResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/calendars":{"get":{"tags":["calendars"],"summary":"List Calendars","operationId":"list_calendars_calendars_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"items":{"$ref":"#/components/schemas/CalendarRead"},"type":"array","title":"Response List Calendars Calendars Get"}}}}},"security":[{"OAuth2PasswordBearer":[]}]},"post":{"tags":["calendars"],"summary":"Create Calendar","operationId":"create_calendar_calendars_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CalendarCreate"}}},"required":true},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CalendarRead"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"OAuth2PasswordBearer":[]}]}},"/calendars/{calendar_id}":{"get":{"tags":["calendars"],"summary":"Get Calendar","operationId":"get_calendar_calendars__calendar_id__get","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"calendar_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Calendar Id"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CalendarRead"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"patch":{"tags":["calendars"],"summary":"Update Calendar","operationId":"update_calendar_calendars__calendar_id__patch","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"calendar_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Calendar Id"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CalendarUpdate"}}}},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/CalendarRead"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"delete":{"tags":["calendars"],"summary":"Delete Calendar","operationId":"delete_calendar_calendars__calendar_id__delete","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"calendar_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Calendar Id"}}],"responses":{"204":{"description":"Successful Response"},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/calendars/{calendar_id}/share":{"post":{"tags":["calendars"],"summary":"Share Calendar","operationId":"share_calendar_calendars__calendar_id__share_post","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"calendar_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Calendar Id"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/ShareCreate"}}}},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ShareRead"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/events":{"get":{"tags":["events"],"summary":"List Events","operationId":"list_events_events_get","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"from_utc","in":"query","required":true,"schema":{"type":"string","format":"date-time","title":"From Utc"}},{"name":"to_utc","in":"query","required":true,"schema":{"type":"string","format":"date-time","title":"To Utc"}},{"name":"calendar_ids","in":"query","required":false,"schema":{"type":"array","items":{"type":"string","format":"uuid"},"title":"Calendar Ids"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/EventRead"},"title":"Response List Events Events Get"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"post":{"tags":["events"],"summary":"Create Event","operationId":"create_event_events_post","security":[{"OAuth2PasswordBearer":[]}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/EventCreate"}}}},"responses":{"201":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/EventCreateResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/events/{event_id}":{"get":{"tags":["events"],"summary":"Get Event","operationId":"get_event_events__event_id__get","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"event_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Event Id"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/EventRead"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"put":{"tags":["events"],"summary":"Update Event","operationId":"update_event_events__event_id__put","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"event_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Event Id"}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/EventUpdate"}}}},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/EventRead"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}},"delete":{"tags":["events"],"summary":"Delete Event","operationId":"delete_event_events__event_id__delete","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"event_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Event Id"}}],"responses":{"204":{"description":"Successful Response"},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/events/check-conflicts":{"post":{"tags":["events"],"summary":"Check Conflicts","operationId":"check_conflicts_events_check_conflicts_post","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CheckConflictsRequest"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"items":{"$ref":"#/components/schemas/ConflictDetail"},"type":"array","title":"Response Check Conflicts Events Check Conflicts Post"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}},"security":[{"OAuth2PasswordBearer":[]}]}},"/availability":{"get":{"tags":["availability"],"summary":"Get Availability","operationId":"get_availability_availability_get","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"from_utc","in":"query","required":true,"schema":{"type":"string","format":"date-time","title":"From Utc"}},{"name":"to_utc","in":"query","required":true,"schema":{"type":"string","format":"date-time","title":"To Utc"}},{"name":"duration_min","in":"query","required":false,"schema":{"type":"integer","default":60,"title":"Duration Min"}},{"name":"calendar_ids","in":"query","required":true,"schema":{"type":"array","items":{"type":"string","format":"uuid"},"title":"Calendar Ids"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/AvailabilityResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/suggestions":{"get":{"tags":["availability"],"summary":"Get Suggestions","operationId":"get_suggestions_suggestions_get","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"event_id","in":"query","required":true,"schema":{"type":"string","format":"uuid","title":"Event Id"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/dashboard":{"get":{"tags":["dashboard"],"summary":"Get Dashboard","operationId":"get_dashboard_dashboard_get","security":[{"OAuth2PasswordBearer":[]}],"parameters":[{"name":"range","in":"query","required":false,"schema":{"type":"string","default":"week","title":"Range"}}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/DashboardResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/health":{"get":{"summary":"Health","operationId":"health_health_get","responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}}}}}},"components":{"schemas":{"AvailabilityResponse":{"properties":{"free_slots":{"items":{"$ref":"#/components/schemas/FreeSlot"},"type":"array","title":"Free Slots"}},"type":"object","required":["free_slots"],"title":"AvailabilityResponse"},"Body_login_auth_login_post":{"properties":{"grant_type":{"anyOf":[{"type":"string","pattern":"password"},{"type":"null"}],"title":"Grant Type"},"username":{"type":"string","title":"Username"},"password":{"type":"string","title":"Password"},"scope":{"type":"string","title":"Scope","default":""},"client_id":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Client Id"},"client_secret":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Client Secret"}},"type":"object","required":["username","password"],"title":"Body_login_auth_login_post"},"CalendarCreate":{"properties":{"name":{"type":"string","title":"Name"},"color":{"type":"string","title":"Color","default":"#3B82F6"},"type":{"$ref":"#/components/schemas/CalendarType","default":"personal"},"default_buffer_min":{"type":"integer","title":"Default Buffer Min","default":30}},"type":"object","required":["name"],"title":"CalendarCreate"},"CalendarRead":{"properties":{"id":{"type":"string","format":"uuid","title":"Id"},"owner_id":{"type":"string","format":"uuid","title":"Owner Id"},"name":{"type":"string","title":"Name"},"color":{"type":"string","title":"Color"},"type":{"$ref":"#/components/schemas/CalendarType"},"default_buffer_min":{"type":"integer","title":"Default Buffer Min"},"created_at":{"type":"string","format":"date-time","title":"Created At"},"role":{"anyOf":[{"$ref":"#/components/schemas/ShareRole"},{"type":"null"}]}},"type":"object","required":["id","owner_id","name","color","type","default_buffer_min","created_at"],"title":"CalendarRead"},"CalendarType":{"type":"string","enum":["personal","work","team","resource"],"title":"CalendarType"},"CalendarUpdate":{"properties":{"name":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Name"},"color":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Color"},"type":{"anyOf":[{"$ref":"#/components/schemas/CalendarType"},{"type":"null"}]},"default_buffer_min":{"anyOf":[{"type":"integer"},{"type":"null"}],"title":"Default Buffer Min"}},"type":"object","title":"CalendarUpdate"},"CheckConflictsRequest":{"properties":{"calendar_ids":{"items":{"type":"string","format":"uuid"},"type":"array","title":"Calendar Ids"},"start_utc":{"type":"string","format":"date-time","title":"Start Utc"},"end_utc":{"type":"string","format":"date-time","title":"End Utc"},"buffer_min":{"type":"integer","title":"Buffer Min","default":30},"exclude_event_id":{"anyOf":[{"type":"string","format":"uuid"},{"type":"null"}],"title":"Exclude Event Id"}},"type":"object","required":["calendar_ids","start_utc","end_utc"],"title":"CheckConflictsRequest"},"ConflictDetail":{"properties":{"with_event_id":{"type":"string","format":"uuid","title":"With Event Id"},"type":{"$ref":"#/components/schemas/ConflictType"},"severity":{"$ref":"#/components/schemas/ConflictSeverity"},"observed_gap_min":{"type":"integer","title":"Observed Gap Min"}},"type":"object","required":["with_event_id","type","severity","observed_gap_min"],"title":"ConflictDetail"},"ConflictSeverity":{"type":"string","enum":["blocking","warning","info"],"title":"ConflictSeverity"},"ConflictType":{"type":"string","enum":["overlap","insufficient_buffer","tight","resource_clash"],"title":"ConflictType"},"DashboardResponse":{"properties":{"upcoming_conflicts":{"items":{"type":"object"},"type":"array","title":"Upcoming Conflicts"},"free_slots_today":{"items":{"$ref":"#/components/schemas/FreeSlot"},"type":"array","title":"Free Slots Today"},"day_scores":{"items":{"$ref":"#/components/schemas/DayScore"},"type":"array","title":"Day Scores"}},"type":"object","required":["upcoming_conflicts","free_slots_today","day_scores"],"title":"DashboardResponse"},"DayScore":{"properties":{"date":{"type":"string","title":"Date"},"score":{"type":"integer","title":"Score"},"conflicts_count":{"type":"integer","title":"Conflicts Count"},"events_count":{"type":"integer","title":"Events Count"}},"type":"object","required":["date","score","conflicts_count","events_count"],"title":"DayScore"},"EventCreate":{"properties":{"calendar_id":{"type":"string","format":"uuid","title":"Calendar Id"},"title":{"type":"string","title":"Title"},"description":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Description"},"location":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Location"},"start_utc":{"type":"string","format":"date-time","title":"Start Utc"},"end_utc":{"type":"string","format":"date-time","title":"End Utc"},"all_day":{"type":"boolean","title":"All Day","default":false},"buffer_min":{"anyOf":[{"type":"integer"},{"type":"null"}],"title":"Buffer Min"},"priority":{"$ref":"#/components/schemas/EventPriority","default":"normal"},"status":{"$ref":"#/components/schemas/EventStatus","default":"confirmed"},"rrule":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Rrule"}},"type":"object","required":["calendar_id","title","start_utc","end_utc"],"title":"EventCreate"},"EventCreateResponse":{"properties":{"event":{"$ref":"#/components/schemas/EventRead"},"conflicts":{"items":{"$ref":"#/components/schemas/ConflictDetail"},"type":"array","title":"Conflicts"},"suggestions":{"items":{"$ref":"#/components/schemas/SlotSuggestion"},"type":"array","title":"Suggestions"}},"type":"object","required":["event","conflicts","suggestions"],"title":"EventCreateResponse"},"EventPriority":{"type":"string","enum":["low","normal","high"],"title":"EventPriority"},"EventRead":{"properties":{"id":{"type":"string","format":"uuid","title":"Id"},"calendar_id":{"type":"string","format":"uuid","title":"Calendar Id"},"title":{"type":"string","title":"Title"},"description":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Description"},"location":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Location"},"start_utc":{"type":"string","format":"date-time","title":"Start Utc"},"end_utc":{"type":"string","format":"date-time","title":"End Utc"},"all_day":{"type":"boolean","title":"All Day"},"buffer_min":{"anyOf":[{"type":"integer"},{"type":"null"}],"title":"Buffer Min"},"priority":{"$ref":"#/components/schemas/EventPriority"},"status":{"$ref":"#/components/schemas/EventStatus"},"rrule":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Rrule"},"recurrence_parent_id":{"anyOf":[{"type":"string","format":"uuid"},{"type":"null"}],"title":"Recurrence Parent Id"},"created_at":{"type":"string","format":"date-time","title":"Created At"},"updated_at":{"type":"string","format":"date-time","title":"Updated At"}},"type":"object","required":["id","calendar_id","title","description","location","start_utc","end_utc","all_day","buffer_min","priority","status","rrule","recurrence_parent_id","created_at","updated_at"],"title":"EventRead"},"EventStatus":{"type":"string","enum":["confirmed","tentative","cancelled"],"title":"EventStatus"},"EventUpdate":{"properties":{"title":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Title"},"description":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Description"},"location":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Location"},"start_utc":{"anyOf":[{"type":"string","format":"date-time"},{"type":"null"}],"title":"Start Utc"},"end_utc":{"anyOf":[{"type":"string","format":"date-time"},{"type":"null"}],"title":"End Utc"},"all_day":{"anyOf":[{"type":"boolean"},{"type":"null"}],"title":"All Day"},"buffer_min":{"anyOf":[{"type":"integer"},{"type":"null"}],"title":"Buffer Min"},"priority":{"anyOf":[{"$ref":"#/components/schemas/EventPriority"},{"type":"null"}]},"status":{"anyOf":[{"$ref":"#/components/schemas/EventStatus"},{"type":"null"}]},"rrule":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Rrule"}},"type":"object","title":"EventUpdate"},"FreeSlot":{"properties":{"start_utc":{"type":"string","format":"date-time","title":"Start Utc"},"end_utc":{"type":"string","format":"date-time","title":"End Utc"},"duration_min":{"type":"integer","title":"Duration Min"}},"type":"object","required":["start_utc","end_utc","duration_min"],"title":"FreeSlot"},"HTTPValidationError":{"properties":{"detail":{"items":{"$ref":"#/components/schemas/ValidationError"},"type":"array","title":"Detail"}},"type":"object","title":"HTTPValidationError"},"RefreshRequest":{"properties":{"refresh_token":{"type":"string","title":"Refresh Token"}},"type":"object","required":["refresh_token"],"title":"RefreshRequest"},"ShareCreate":{"properties":{"user_id":{"type":"string","format":"uuid","title":"User Id"},"role":{"$ref":"#/components/schemas/ShareRole","default":"viewer"}},"type":"object","required":["user_id"],"title":"ShareCreate"},"ShareRead":{"properties":{"id":{"type":"string","format":"uuid","title":"Id"},"calendar_id":{"type":"string","format":"uuid","title":"Calendar Id"},"user_id":{"type":"string","format":"uuid","title":"User Id"},"role":{"$ref":"#/components/schemas/ShareRole"}},"type":"object","required":["id","calendar_id","user_id","role"],"title":"ShareRead"},"ShareRole":{"type":"string","enum":["owner","editor","viewer"],"title":"ShareRole"},"SlotSuggestion":{"properties":{"start_utc":{"type":"string","format":"date-time","title":"Start Utc"},"end_utc":{"type":"string","format":"date-time","title":"End Utc"}},"type":"object","required":["start_utc","end_utc"],"title":"SlotSuggestion"},"TokenResponse":{"properties":{"access_token":{"type":"string","title":"Access Token"},"refresh_token":{"type":"string","title":"Refresh Token"},"token_type":{"type":"string","title":"Token Type","default":"bearer"}},"type":"object","required":["access_token","refresh_token"],"title":"TokenResponse"},"UserCreate":{"properties":{"email":{"type":"string","format":"email","title":"Email"},"password":{"type":"string","title":"Password"},"display_name":{"type":"string","title":"Display Name"},"timezone":{"type":"string","title":"Timezone","default":"UTC"}},"type":"object","required":["email","password","display_name"],"title":"UserCreate"},"UserRead":{"properties":{"id":{"type":"string","format":"uuid","title":"Id"},"email":{"type":"string","title":"Email"},"display_name":{"type":"string","title":"Display Name"},"timezone":{"type":"string","title":"Timezone"}},"type":"object","required":["id","email","display_name","timezone"],"title":"UserRead"},"ValidationError":{"properties":{"loc":{"items":{"anyOf":[{"type":"string"},{"type":"integer"}]},"type":"array","title":"Location"},"msg":{"type":"string","title":"Message"},"type":{"type":"string","title":"Error Type"}},"type":"object","required":["loc","msg","type"],"title":"ValidationError"}},"securitySchemes":{"OAuth2PasswordBearer":{"type":"oauth2","flows":{"password":{"scopes":{},"tokenUrl":"/auth/login"}}}}}}
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Cadenflu API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Register",
+        "operationId": "register_auth_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login",
+        "operationId": "login_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_login_auth_login_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid email or password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidCredentialsError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Email not verified",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailNotVerifiedError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Refresh",
+        "operationId": "refresh_auth_refresh_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/verify-email": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Verify Email",
+        "operationId": "verify_email_auth_verify_email_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailVerifyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRead"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or expired token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvalidOrExpiredTokenError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/resend-verification": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Resend Verification",
+        "operationId": "resend_verification_auth_resend_verification_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResendVerificationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/calendars": {
+      "get": {
+        "tags": [
+          "calendars"
+        ],
+        "summary": "List Calendars",
+        "operationId": "list_calendars_calendars_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CalendarRead"
+                  },
+                  "type": "array",
+                  "title": "Response List Calendars Calendars Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "calendars"
+        ],
+        "summary": "Create Calendar",
+        "operationId": "create_calendar_calendars_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalendarCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalendarRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/calendars/{calendar_id}": {
+      "get": {
+        "tags": [
+          "calendars"
+        ],
+        "summary": "Get Calendar",
+        "operationId": "get_calendar_calendars__calendar_id__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "calendar_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Calendar Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalendarRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "calendars"
+        ],
+        "summary": "Update Calendar",
+        "operationId": "update_calendar_calendars__calendar_id__patch",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "calendar_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Calendar Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalendarUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalendarRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "calendars"
+        ],
+        "summary": "Delete Calendar",
+        "operationId": "delete_calendar_calendars__calendar_id__delete",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "calendar_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Calendar Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/calendars/{calendar_id}/share": {
+      "post": {
+        "tags": [
+          "calendars"
+        ],
+        "summary": "Share Calendar",
+        "operationId": "share_calendar_calendars__calendar_id__share_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "calendar_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Calendar Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShareCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShareRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients": {
+      "get": {
+        "tags": [
+          "clients"
+        ],
+        "summary": "List Clients",
+        "operationId": "list_clients_clients_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ClientType"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Client Type"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClientRead"
+                  },
+                  "title": "Response List Clients Clients Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "clients"
+        ],
+        "summary": "Create Client",
+        "operationId": "create_client_clients_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/search": {
+      "get": {
+        "tags": [
+          "clients"
+        ],
+        "summary": "Search Clients",
+        "operationId": "search_clients_clients_search_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Email"
+            }
+          },
+          {
+            "name": "telephone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Telephone"
+            }
+          },
+          {
+            "name": "nom",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Nom"
+            }
+          },
+          {
+            "name": "prenom",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Prenom"
+            }
+          },
+          {
+            "name": "inscription_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Inscription Date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClientRead"
+                  },
+                  "title": "Response Search Clients Clients Search Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{client_id}/agenda": {
+      "get": {
+        "tags": [
+          "clients"
+        ],
+        "summary": "Get Client Agenda",
+        "operationId": "get_client_agenda_clients__client_id__agenda_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Client Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventRead"
+                  },
+                  "title": "Response Get Client Agenda Clients  Client Id  Agenda Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{client_id}": {
+      "get": {
+        "tags": [
+          "clients"
+        ],
+        "summary": "Get Client",
+        "operationId": "get_client_clients__client_id__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Client Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "clients"
+        ],
+        "summary": "Update Client",
+        "operationId": "update_client_clients__client_id__patch",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Client Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "clients"
+        ],
+        "summary": "Delete Client",
+        "operationId": "delete_client_clients__client_id__delete",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Client Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events": {
+      "get": {
+        "tags": [
+          "events"
+        ],
+        "summary": "List Events",
+        "operationId": "list_events_events_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from_utc",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "title": "From Utc"
+            }
+          },
+          {
+            "name": "to_utc",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "title": "To Utc"
+            }
+          },
+          {
+            "name": "calendar_ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "title": "Calendar Ids"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventRead"
+                  },
+                  "title": "Response List Events Events Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "events"
+        ],
+        "summary": "Create Event",
+        "operationId": "create_event_events_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventCreateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/{event_id}": {
+      "get": {
+        "tags": [
+          "events"
+        ],
+        "summary": "Get Event",
+        "operationId": "get_event_events__event_id__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Event Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "events"
+        ],
+        "summary": "Update Event",
+        "operationId": "update_event_events__event_id__put",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Event Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "events"
+        ],
+        "summary": "Delete Event",
+        "operationId": "delete_event_events__event_id__delete",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Event Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/check-conflicts": {
+      "post": {
+        "tags": [
+          "events"
+        ],
+        "summary": "Check Conflicts",
+        "operationId": "check_conflicts_events_check_conflicts_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckConflictsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ConflictDetail"
+                  },
+                  "type": "array",
+                  "title": "Response Check Conflicts Events Check Conflicts Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/availability": {
+      "get": {
+        "tags": [
+          "availability"
+        ],
+        "summary": "Get Availability",
+        "operationId": "get_availability_availability_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "from_utc",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "title": "From Utc"
+            }
+          },
+          {
+            "name": "to_utc",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "title": "To Utc"
+            }
+          },
+          {
+            "name": "duration_min",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 60,
+              "title": "Duration Min"
+            }
+          },
+          {
+            "name": "calendar_ids",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "title": "Calendar Ids"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvailabilityResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/suggestions": {
+      "get": {
+        "tags": [
+          "availability"
+        ],
+        "summary": "Get Suggestions",
+        "operationId": "get_suggestions_suggestions_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Event Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Get Dashboard",
+        "operationId": "get_dashboard_dashboard_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "range",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "week",
+              "title": "Range"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports": {
+      "get": {
+        "tags": [
+          "reports"
+        ],
+        "summary": "Get Report",
+        "operationId": "get_report_reports_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "month",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Month"
+            }
+          },
+          {
+            "name": "client_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ClientType"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Client Type"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/students": {
+      "get": {
+        "tags": [
+          "students"
+        ],
+        "summary": "List Students",
+        "operationId": "list_students_students_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "learner_status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/LearnerStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Learner Status"
+            }
+          },
+          {
+            "name": "progress_status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ProgressStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Progress Status"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StudentRead"
+                  },
+                  "title": "Response List Students Students Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/students/{client_id}/profile": {
+      "get": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Get Student Profile",
+        "operationId": "get_student_profile_students__client_id__profile_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Client Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentProfileRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Upsert Student Profile",
+        "operationId": "upsert_student_profile_students__client_id__profile_patch",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Client Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudentProfileWrite"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentProfileRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/students/{client_id}/notes": {
+      "get": {
+        "tags": [
+          "students"
+        ],
+        "summary": "List Student Notes",
+        "operationId": "list_student_notes_students__client_id__notes_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Client Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StudentNoteRead"
+                  },
+                  "title": "Response List Student Notes Students  Client Id  Notes Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Add Student Note",
+        "operationId": "add_student_note_students__client_id__notes_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Client Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudentNoteCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentNoteRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks": {
+      "get": {
+        "tags": [
+          "tasks"
+        ],
+        "summary": "List Tasks",
+        "operationId": "list_tasks_tasks_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/TaskStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "name": "priority",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/TaskPriority"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Priority"
+            }
+          },
+          {
+            "name": "client_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Client Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskRead"
+                  },
+                  "title": "Response List Tasks Tasks Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "tasks"
+        ],
+        "summary": "Create Task",
+        "operationId": "create_task_tasks_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/{task_id}": {
+      "patch": {
+        "tags": [
+          "tasks"
+        ],
+        "summary": "Update Task",
+        "operationId": "update_task_tasks__task_id__patch",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Task Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/formations": {
+      "get": {
+        "tags": [
+          "formations"
+        ],
+        "summary": "List Formations",
+        "operationId": "list_formations_formations_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/FormationRead"
+                  },
+                  "type": "array",
+                  "title": "Response List Formations Formations Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/cron/generate-alerts": {
+      "post": {
+        "tags": [
+          "cron"
+        ],
+        "summary": "Generate Alerts",
+        "operationId": "generate_alerts_cron_generate_alerts_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateAlertsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateAlertsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/cron/sync-alert-sheet": {
+      "post": {
+        "tags": [
+          "cron"
+        ],
+        "summary": "Sync Alert Sheet",
+        "operationId": "sync_alert_sheet_cron_sync_alert_sheet_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncAlertSheetResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AlertPriority": {
+        "type": "string",
+        "enum": [
+          "normal",
+          "important",
+          "urgent"
+        ],
+        "title": "AlertPriority"
+      },
+      "AlertRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "client_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Client Id"
+          },
+          "alert_type": {
+            "$ref": "#/components/schemas/AlertType"
+          },
+          "priority": {
+            "$ref": "#/components/schemas/AlertPriority"
+          },
+          "message_title": {
+            "type": "string",
+            "title": "Message Title"
+          },
+          "message_body": {
+            "type": "string",
+            "title": "Message Body"
+          },
+          "due_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Due At"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AlertStatus"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "sent_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sent At"
+          },
+          "sheet_row_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sheet Row Id"
+          },
+          "make_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Make Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "client_id",
+          "alert_type",
+          "priority",
+          "message_title",
+          "message_body",
+          "due_at",
+          "status",
+          "created_at",
+          "sent_at",
+          "sheet_row_id",
+          "make_status"
+        ],
+        "title": "AlertRead"
+      },
+      "AlertStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "sent",
+          "failed",
+          "skipped"
+        ],
+        "title": "AlertStatus"
+      },
+      "AlertType": {
+        "type": "string",
+        "enum": [
+          "progress_check",
+          "cancelled_appointment_followup",
+          "appointment_preparation",
+          "missing_onboarding"
+        ],
+        "title": "AlertType"
+      },
+      "AvailabilityResponse": {
+        "properties": {
+          "free_slots": {
+            "items": {
+              "$ref": "#/components/schemas/FreeSlot"
+            },
+            "type": "array",
+            "title": "Free Slots"
+          }
+        },
+        "type": "object",
+        "required": [
+          "free_slots"
+        ],
+        "title": "AvailabilityResponse"
+      },
+      "Body_login_auth_login_post": {
+        "properties": {
+          "grant_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "password"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grant Type"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password"
+          },
+          "scope": {
+            "type": "string",
+            "title": "Scope",
+            "default": ""
+          },
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "client_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Secret"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "title": "Body_login_auth_login_post"
+      },
+      "CalendarCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "color": {
+            "type": "string",
+            "title": "Color",
+            "default": "#3B82F6"
+          },
+          "type": {
+            "$ref": "#/components/schemas/CalendarType",
+            "default": "personal"
+          },
+          "default_buffer_min": {
+            "type": "integer",
+            "title": "Default Buffer Min",
+            "default": 30
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "CalendarCreate"
+      },
+      "CalendarRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "owner_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Owner Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "color": {
+            "type": "string",
+            "title": "Color"
+          },
+          "type": {
+            "$ref": "#/components/schemas/CalendarType"
+          },
+          "default_buffer_min": {
+            "type": "integer",
+            "title": "Default Buffer Min"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ShareRole"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "owner_id",
+          "name",
+          "color",
+          "type",
+          "default_buffer_min",
+          "created_at"
+        ],
+        "title": "CalendarRead"
+      },
+      "CalendarType": {
+        "type": "string",
+        "enum": [
+          "personal",
+          "work",
+          "team",
+          "resource"
+        ],
+        "title": "CalendarType"
+      },
+      "CalendarUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "color": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Color"
+          },
+          "type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CalendarType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "default_buffer_min": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Buffer Min"
+          }
+        },
+        "type": "object",
+        "title": "CalendarUpdate"
+      },
+      "CheckConflictsRequest": {
+        "properties": {
+          "calendar_ids": {
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "type": "array",
+            "title": "Calendar Ids"
+          },
+          "start_utc": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Utc"
+          },
+          "end_utc": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End Utc"
+          },
+          "buffer_min": {
+            "type": "integer",
+            "title": "Buffer Min",
+            "default": 30
+          },
+          "exclude_event_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exclude Event Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "calendar_ids",
+          "start_utc",
+          "end_utc"
+        ],
+        "title": "CheckConflictsRequest"
+      },
+      "ClientCreate": {
+        "properties": {
+          "nom": {
+            "type": "string",
+            "title": "Nom"
+          },
+          "prenom": {
+            "type": "string",
+            "title": "Prenom",
+            "default": ""
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "telephone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Telephone"
+          },
+          "color": {
+            "type": "string",
+            "title": "Color",
+            "default": "#6366f1"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone",
+            "default": "UTC"
+          },
+          "rate_per_hour": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rate Per Hour"
+          },
+          "forfait_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forfait Hours"
+          },
+          "client_type": {
+            "$ref": "#/components/schemas/ClientType",
+            "default": "patron"
+          }
+        },
+        "type": "object",
+        "required": [
+          "nom"
+        ],
+        "title": "ClientCreate"
+      },
+      "ClientRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "owner_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Owner Id"
+          },
+          "nom": {
+            "type": "string",
+            "title": "Nom"
+          },
+          "prenom": {
+            "type": "string",
+            "title": "Prenom"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "telephone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Telephone"
+          },
+          "color": {
+            "type": "string",
+            "title": "Color"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          },
+          "rate_per_hour": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rate Per Hour"
+          },
+          "forfait_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forfait Hours"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "client_type": {
+            "$ref": "#/components/schemas/ClientType"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "owner_id",
+          "nom",
+          "prenom",
+          "email",
+          "telephone",
+          "color",
+          "timezone",
+          "rate_per_hour",
+          "forfait_hours",
+          "status",
+          "client_type",
+          "created_at"
+        ],
+        "title": "ClientRead"
+      },
+      "ClientType": {
+        "type": "string",
+        "enum": [
+          "patron",
+          "apprenant"
+        ],
+        "title": "ClientType"
+      },
+      "ClientUpdate": {
+        "properties": {
+          "nom": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nom"
+          },
+          "prenom": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prenom"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "telephone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Telephone"
+          },
+          "color": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Color"
+          },
+          "timezone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timezone"
+          },
+          "rate_per_hour": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rate Per Hour"
+          },
+          "forfait_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forfait Hours"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "inactive"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "client_type": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ClientType"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "ClientUpdate"
+      },
+      "ConflictDetail": {
+        "properties": {
+          "with_event_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "With Event Id"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ConflictType"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/ConflictSeverity"
+          },
+          "observed_gap_min": {
+            "type": "integer",
+            "title": "Observed Gap Min"
+          }
+        },
+        "type": "object",
+        "required": [
+          "with_event_id",
+          "type",
+          "severity",
+          "observed_gap_min"
+        ],
+        "title": "ConflictDetail"
+      },
+      "ConflictSeverity": {
+        "type": "string",
+        "enum": [
+          "blocking",
+          "warning",
+          "info"
+        ],
+        "title": "ConflictSeverity"
+      },
+      "ConflictType": {
+        "type": "string",
+        "enum": [
+          "overlap",
+          "insufficient_buffer",
+          "tight",
+          "resource_clash"
+        ],
+        "title": "ConflictType"
+      },
+      "DashboardResponse": {
+        "properties": {
+          "upcoming_conflicts": {
+            "items": {
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Upcoming Conflicts"
+          },
+          "free_slots_today": {
+            "items": {
+              "$ref": "#/components/schemas/FreeSlot"
+            },
+            "type": "array",
+            "title": "Free Slots Today"
+          },
+          "day_scores": {
+            "items": {
+              "$ref": "#/components/schemas/DayScore"
+            },
+            "type": "array",
+            "title": "Day Scores"
+          }
+        },
+        "type": "object",
+        "required": [
+          "upcoming_conflicts",
+          "free_slots_today",
+          "day_scores"
+        ],
+        "title": "DashboardResponse"
+      },
+      "DayScore": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date"
+          },
+          "score": {
+            "type": "integer",
+            "title": "Score"
+          },
+          "conflicts_count": {
+            "type": "integer",
+            "title": "Conflicts Count"
+          },
+          "events_count": {
+            "type": "integer",
+            "title": "Events Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "score",
+          "conflicts_count",
+          "events_count"
+        ],
+        "title": "DayScore"
+      },
+      "EmailNotVerifiedError": {
+        "properties": {
+          "detail": {
+            "type": "string",
+            "enum": [
+              "email_not_verified"
+            ],
+            "const": "email_not_verified",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "detail"
+        ],
+        "title": "EmailNotVerifiedError"
+      },
+      "EmailVerifyRequest": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "title": "EmailVerifyRequest"
+      },
+      "EventCreate": {
+        "properties": {
+          "calendar_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Calendar Id"
+          },
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "billable": {
+            "type": "boolean",
+            "title": "Billable",
+            "default": true
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "location": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location"
+          },
+          "start_utc": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Utc"
+          },
+          "end_utc": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End Utc"
+          },
+          "all_day": {
+            "type": "boolean",
+            "title": "All Day",
+            "default": false
+          },
+          "buffer_min": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Buffer Min"
+          },
+          "priority": {
+            "$ref": "#/components/schemas/EventPriority",
+            "default": "normal"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EventStatus",
+            "default": "confirmed"
+          },
+          "rrule": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rrule"
+          }
+        },
+        "type": "object",
+        "required": [
+          "calendar_id",
+          "title",
+          "start_utc",
+          "end_utc"
+        ],
+        "title": "EventCreate"
+      },
+      "EventCreateResponse": {
+        "properties": {
+          "event": {
+            "$ref": "#/components/schemas/EventRead"
+          },
+          "conflicts": {
+            "items": {
+              "$ref": "#/components/schemas/ConflictDetail"
+            },
+            "type": "array",
+            "title": "Conflicts"
+          },
+          "suggestions": {
+            "items": {
+              "$ref": "#/components/schemas/SlotSuggestion"
+            },
+            "type": "array",
+            "title": "Suggestions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "event",
+          "conflicts",
+          "suggestions"
+        ],
+        "title": "EventCreateResponse"
+      },
+      "EventPriority": {
+        "type": "string",
+        "enum": [
+          "low",
+          "normal",
+          "high"
+        ],
+        "title": "EventPriority"
+      },
+      "EventRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "calendar_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Calendar Id"
+          },
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "billable": {
+            "type": "boolean",
+            "title": "Billable",
+            "default": true
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "location": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location"
+          },
+          "start_utc": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Utc"
+          },
+          "end_utc": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End Utc"
+          },
+          "all_day": {
+            "type": "boolean",
+            "title": "All Day"
+          },
+          "buffer_min": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Buffer Min"
+          },
+          "priority": {
+            "$ref": "#/components/schemas/EventPriority"
+          },
+          "status": {
+            "$ref": "#/components/schemas/EventStatus"
+          },
+          "rrule": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rrule"
+          },
+          "recurrence_parent_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recurrence Parent Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "calendar_id",
+          "title",
+          "description",
+          "location",
+          "start_utc",
+          "end_utc",
+          "all_day",
+          "buffer_min",
+          "priority",
+          "status",
+          "rrule",
+          "recurrence_parent_id",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "EventRead"
+      },
+      "EventStatus": {
+        "type": "string",
+        "enum": [
+          "confirmed",
+          "tentative",
+          "cancelled"
+        ],
+        "title": "EventStatus"
+      },
+      "EventUpdate": {
+        "properties": {
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "billable": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Billable"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "location": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location"
+          },
+          "start_utc": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Utc"
+          },
+          "end_utc": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Utc"
+          },
+          "all_day": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "All Day"
+          },
+          "buffer_min": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Buffer Min"
+          },
+          "priority": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EventPriority"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EventStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rrule": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rrule"
+          }
+        },
+        "type": "object",
+        "title": "EventUpdate"
+      },
+      "FormationRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "category": {
+            "$ref": "#/components/schemas/StudentCategory"
+          },
+          "secondary_category": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StudentCategory"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "training_duration_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Training Duration Text"
+          },
+          "study_hours_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Study Hours Text"
+          },
+          "access_duration_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Duration Text"
+          },
+          "access_duration_months": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Duration Months"
+          },
+          "price_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Text"
+          },
+          "certification_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Certification Name"
+          },
+          "exam_info_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exam Info Text"
+          },
+          "module_count_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Module Count Text"
+          },
+          "modules_detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modules Detail"
+          },
+          "csm_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Csm Note"
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "code",
+          "name",
+          "category",
+          "secondary_category",
+          "training_duration_text",
+          "study_hours_text",
+          "access_duration_text",
+          "access_duration_months",
+          "price_text",
+          "certification_name",
+          "exam_info_text",
+          "module_count_text",
+          "modules_detail",
+          "csm_note",
+          "source_url"
+        ],
+        "title": "FormationRead"
+      },
+      "FreeSlot": {
+        "properties": {
+          "start_utc": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Utc"
+          },
+          "end_utc": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End Utc"
+          },
+          "duration_min": {
+            "type": "integer",
+            "title": "Duration Min"
+          }
+        },
+        "type": "object",
+        "required": [
+          "start_utc",
+          "end_utc",
+          "duration_min"
+        ],
+        "title": "FreeSlot"
+      },
+      "GenerateAlertsRequest": {
+        "properties": {
+          "alert_types": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AlertType"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alert Types"
+          }
+        },
+        "type": "object",
+        "title": "GenerateAlertsRequest"
+      },
+      "GenerateAlertsResponse": {
+        "properties": {
+          "created": {
+            "items": {
+              "$ref": "#/components/schemas/AlertRead"
+            },
+            "type": "array",
+            "title": "Created"
+          },
+          "skipped_duplicates": {
+            "type": "integer",
+            "title": "Skipped Duplicates"
+          }
+        },
+        "type": "object",
+        "required": [
+          "created",
+          "skipped_duplicates"
+        ],
+        "title": "GenerateAlertsResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "InvalidCredentialsError": {
+        "properties": {
+          "detail": {
+            "type": "string",
+            "enum": [
+              "Invalid email or password"
+            ],
+            "const": "Invalid email or password",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "detail"
+        ],
+        "title": "InvalidCredentialsError"
+      },
+      "InvalidOrExpiredTokenError": {
+        "properties": {
+          "detail": {
+            "type": "string",
+            "enum": [
+              "invalid_or_expired_token"
+            ],
+            "const": "invalid_or_expired_token",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "detail"
+        ],
+        "title": "InvalidOrExpiredTokenError"
+      },
+      "LearnerStatus": {
+        "type": "string",
+        "enum": [
+          "nouveau",
+          "actif",
+          "a_risque",
+          "examen_prevu",
+          "diplome",
+          "suspendu",
+          "cloture"
+        ],
+        "title": "LearnerStatus"
+      },
+      "MessageResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "MessageResponse"
+      },
+      "PaymentStatus": {
+        "type": "string",
+        "enum": [
+          "solde",
+          "mensualise",
+          "organisme",
+          "impaye"
+        ],
+        "title": "PaymentStatus"
+      },
+      "ProgressStatus": {
+        "type": "string",
+        "enum": [
+          "bon_rythme",
+          "a_surveiller",
+          "distrait",
+          "bloque",
+          "suspendu",
+          "diplome",
+          "cloture"
+        ],
+        "title": "ProgressStatus"
+      },
+      "RefreshRequest": {
+        "properties": {
+          "refresh_token": {
+            "type": "string",
+            "title": "Refresh Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "refresh_token"
+        ],
+        "title": "RefreshRequest"
+      },
+      "ReportResponse": {
+        "properties": {
+          "month": {
+            "type": "string",
+            "title": "Month"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/ReportRow"
+            },
+            "type": "array",
+            "title": "Rows"
+          },
+          "total_hours": {
+            "type": "number",
+            "title": "Total Hours"
+          },
+          "total_amount_estimated": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Amount Estimated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "month",
+          "rows",
+          "total_hours"
+        ],
+        "title": "ReportResponse"
+      },
+      "ReportRow": {
+        "properties": {
+          "client_id": {
+            "type": "string",
+            "title": "Client Id"
+          },
+          "client_name": {
+            "type": "string",
+            "title": "Client Name"
+          },
+          "client_color": {
+            "type": "string",
+            "title": "Client Color"
+          },
+          "hours": {
+            "type": "number",
+            "title": "Hours"
+          },
+          "events_count": {
+            "type": "integer",
+            "title": "Events Count"
+          },
+          "amount_estimated": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount Estimated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "client_id",
+          "client_name",
+          "client_color",
+          "hours",
+          "events_count"
+        ],
+        "title": "ReportRow"
+      },
+      "ResendVerificationRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "title": "ResendVerificationRequest"
+      },
+      "ShareCreate": {
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "User Id"
+          },
+          "role": {
+            "$ref": "#/components/schemas/ShareRole",
+            "default": "viewer"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id"
+        ],
+        "title": "ShareCreate"
+      },
+      "ShareRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "calendar_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Calendar Id"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "User Id"
+          },
+          "role": {
+            "$ref": "#/components/schemas/ShareRole"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "calendar_id",
+          "user_id",
+          "role"
+        ],
+        "title": "ShareRead"
+      },
+      "ShareRole": {
+        "type": "string",
+        "enum": [
+          "owner",
+          "editor",
+          "viewer"
+        ],
+        "title": "ShareRole"
+      },
+      "SlotSuggestion": {
+        "properties": {
+          "start_utc": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Utc"
+          },
+          "end_utc": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End Utc"
+          }
+        },
+        "type": "object",
+        "required": [
+          "start_utc",
+          "end_utc"
+        ],
+        "title": "SlotSuggestion"
+      },
+      "StudentCategory": {
+        "type": "string",
+        "enum": [
+          "compta",
+          "rh",
+          "bf",
+          "formation_courte"
+        ],
+        "title": "StudentCategory"
+      },
+      "StudentNoteCreate": {
+        "properties": {
+          "note": {
+            "type": "string",
+            "title": "Note"
+          }
+        },
+        "type": "object",
+        "required": [
+          "note"
+        ],
+        "title": "StudentNoteCreate"
+      },
+      "StudentNoteRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "student_profile_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Student Profile Id"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "created_by": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Created By"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "student_profile_id",
+          "note",
+          "created_at",
+          "created_by"
+        ],
+        "title": "StudentNoteRead"
+      },
+      "StudentProfileRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "client_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Client Id"
+          },
+          "formation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Formation Id"
+          },
+          "category": {
+            "$ref": "#/components/schemas/StudentCategory"
+          },
+          "inscription_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Inscription Date"
+          },
+          "access_start_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Access Start Date"
+          },
+          "access_end_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Access End Date"
+          },
+          "exam_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exam Date"
+          },
+          "payment_status": {
+            "$ref": "#/components/schemas/PaymentStatus"
+          },
+          "learner_status": {
+            "$ref": "#/components/schemas/LearnerStatus"
+          },
+          "progress_status": {
+            "$ref": "#/components/schemas/ProgressStatus"
+          },
+          "risk_color": {
+            "type": "string",
+            "title": "Risk Color",
+            "default": ""
+          },
+          "alert_enabled": {
+            "type": "boolean",
+            "title": "Alert Enabled"
+          },
+          "onboarding_done": {
+            "type": "boolean",
+            "title": "Onboarding Done"
+          },
+          "followup_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Followup Date"
+          },
+          "exam_blank_done": {
+            "type": "boolean",
+            "title": "Exam Blank Done"
+          },
+          "final_exam_done": {
+            "type": "boolean",
+            "title": "Final Exam Done"
+          },
+          "end_training_done": {
+            "type": "boolean",
+            "title": "End Training Done"
+          },
+          "testimonial_requested": {
+            "type": "boolean",
+            "title": "Testimonial Requested"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "client_id",
+          "formation_id",
+          "category",
+          "inscription_date",
+          "access_start_date",
+          "access_end_date",
+          "exam_date",
+          "payment_status",
+          "learner_status",
+          "progress_status",
+          "alert_enabled",
+          "onboarding_done",
+          "followup_date",
+          "exam_blank_done",
+          "final_exam_done",
+          "end_training_done",
+          "testimonial_requested",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "StudentProfileRead"
+      },
+      "StudentProfileWrite": {
+        "properties": {
+          "formation_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Formation Id"
+          },
+          "category": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StudentCategory"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "inscription_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Inscription Date"
+          },
+          "access_start_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Start Date"
+          },
+          "access_end_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access End Date"
+          },
+          "exam_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exam Date"
+          },
+          "payment_status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PaymentStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "learner_status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LearnerStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "progress_status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProgressStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "alert_enabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alert Enabled"
+          },
+          "onboarding_done": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Onboarding Done"
+          },
+          "followup_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Followup Date"
+          },
+          "exam_blank_done": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exam Blank Done"
+          },
+          "final_exam_done": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Exam Done"
+          },
+          "end_training_done": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Training Done"
+          },
+          "testimonial_requested": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Testimonial Requested"
+          }
+        },
+        "type": "object",
+        "title": "StudentProfileWrite"
+      },
+      "StudentRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "color": {
+            "type": "string",
+            "title": "Color"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "profile": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StudentProfileRead"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "color",
+          "status"
+        ],
+        "title": "StudentRead"
+      },
+      "SyncAlertSheetResponse": {
+        "properties": {
+          "synced": {
+            "type": "integer",
+            "title": "Synced"
+          },
+          "failed": {
+            "type": "integer",
+            "title": "Failed"
+          },
+          "not_configured": {
+            "type": "boolean",
+            "title": "Not Configured"
+          }
+        },
+        "type": "object",
+        "required": [
+          "synced",
+          "failed",
+          "not_configured"
+        ],
+        "title": "SyncAlertSheetResponse"
+      },
+      "TaskCreate": {
+        "properties": {
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          },
+          "priority": {
+            "$ref": "#/components/schemas/TaskPriority",
+            "default": "pas_urgent"
+          },
+          "stars": {
+            "type": "integer",
+            "maximum": 3.0,
+            "minimum": 1.0,
+            "title": "Stars",
+            "default": 1
+          },
+          "due_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Date"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TaskStatus",
+            "default": "a_faire"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title"
+        ],
+        "title": "TaskCreate"
+      },
+      "TaskPriority": {
+        "type": "string",
+        "enum": [
+          "urgent",
+          "pas_urgent"
+        ],
+        "title": "TaskPriority"
+      },
+      "TaskRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "owner_user_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Owner User Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          },
+          "priority": {
+            "$ref": "#/components/schemas/TaskPriority"
+          },
+          "stars": {
+            "type": "integer",
+            "title": "Stars"
+          },
+          "due_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Date"
+          },
+          "status": {
+            "$ref": "#/components/schemas/TaskStatus"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "client_id",
+          "owner_user_id",
+          "title",
+          "category",
+          "priority",
+          "stars",
+          "due_date",
+          "status",
+          "note",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "TaskRead"
+      },
+      "TaskStatus": {
+        "type": "string",
+        "enum": [
+          "a_faire",
+          "en_cours",
+          "fait",
+          "reporte"
+        ],
+        "title": "TaskStatus"
+      },
+      "TaskUpdate": {
+        "properties": {
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          },
+          "priority": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TaskPriority"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "stars": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 3.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stars"
+          },
+          "due_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Date"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TaskStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "type": "object",
+        "title": "TaskUpdate"
+      },
+      "TokenResponse": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "refresh_token": {
+            "type": "string",
+            "title": "Refresh Token"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "default": "bearer"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token",
+          "refresh_token"
+        ],
+        "title": "TokenResponse"
+      },
+      "UserCreate": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone",
+            "default": "UTC"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password",
+          "display_name"
+        ],
+        "title": "UserCreate"
+      },
+      "UserRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "display_name",
+          "timezone"
+        ],
+        "title": "UserRead"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/auth/login"
+          }
+        }
+      }
+    }
+  }
+}

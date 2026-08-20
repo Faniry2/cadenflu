@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom'
-import type { ClientRead, ClientHoursSummary } from '../api/types'
+import type { ClientRead, ClientHoursSummary } from '../api/models'
 import { cn } from '../utils/cn'
+import { CLIENT_TYPE_LABELS, CLIENT_TYPE_BADGE_STYLES, clientDisplayName } from '../utils/clientType'
+import { RISK_COLOR_BADGE_STYLES, RISK_COLOR_FALLBACK_STYLE } from '../utils/studentStatus'
 
 interface Props {
   client: ClientRead
   summary?: ClientHoursSummary
+  riskColor?: string | null
   onDelete?: (id: string) => void
 }
 
@@ -25,7 +28,7 @@ function ForfaitBar({ hours, forfait }: { hours: number; forfait: number }) {
   )
 }
 
-export function ClientCard({ client, summary, onDelete }: Props) {
+export function ClientCard({ client, summary, riskColor, onDelete }: Props) {
   const hours = summary?.hours_billed ?? 0
   const forfait = client.forfait_hours
   const overQuota = forfait !== null && hours > forfait
@@ -41,12 +44,32 @@ export function ClientCard({ client, summary, onDelete }: Props) {
             aria-hidden
           />
           <div className="min-w-0">
-            <Link
-              to={`/clients/${client.id}`}
-              className="text-sm font-semibold text-gray-800 hover:text-indigo-600 truncate block"
-            >
-              {client.name}
-            </Link>
+            <div className="flex items-center gap-1.5">
+              <Link
+                to={`/clients/${client.id}`}
+                className="text-sm font-semibold text-gray-800 hover:text-indigo-600 truncate block"
+              >
+                {clientDisplayName(client)}
+              </Link>
+              <span
+                className={cn(
+                  'text-[10px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0',
+                  CLIENT_TYPE_BADGE_STYLES[client.client_type]
+                )}
+              >
+                {CLIENT_TYPE_LABELS[client.client_type]}
+              </span>
+              {riskColor && (
+                <span
+                  className={cn(
+                    'text-[10px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0',
+                    RISK_COLOR_BADGE_STYLES[riskColor] ?? RISK_COLOR_FALLBACK_STYLE
+                  )}
+                >
+                  {riskColor}
+                </span>
+              )}
+            </div>
             <p className="text-xs text-gray-400">{client.timezone}</p>
           </div>
         </div>

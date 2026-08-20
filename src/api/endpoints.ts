@@ -3,6 +3,9 @@ import type {
   UserCreate,
   UserRead,
   TokenResponse,
+  EmailVerifyRequest,
+  ResendVerificationRequest,
+  MessageResponse,
   CalendarCreate,
   CalendarUpdate,
   CalendarRead,
@@ -20,7 +23,22 @@ import type {
   ClientUpdate,
   ClientRead,
   ReportResponse,
-} from './types'
+  StudentRead,
+  StudentProfileRead,
+  StudentProfileWrite,
+  StudentNoteCreate,
+  StudentNoteRead,
+  LearnerStatus,
+  ProgressStatus,
+  TaskRead,
+  TaskCreate,
+  TaskUpdate,
+  TaskPriority,
+  TaskStatus,
+  FormationRead,
+  ReminderSettingsResponse,
+  ReminderSettingsUpdateRequest,
+} from './models'
 
 // Auth
 export const auth = {
@@ -40,6 +58,16 @@ export const auth = {
 
   refresh: (refresh_token: string) =>
     apiClient.post<TokenResponse>('/auth/refresh', { refresh_token }).then((r) => r.data),
+
+  verifyEmail: (token: string) =>
+    apiClient
+      .post<UserRead>('/auth/verify-email', { token } satisfies EmailVerifyRequest)
+      .then((r) => r.data),
+
+  resendVerification: (email: string) =>
+    apiClient
+      .post<MessageResponse>('/auth/resend-verification', { email } satisfies ResendVerificationRequest)
+      .then((r) => r.data),
 }
 
 // Calendars
@@ -134,6 +162,17 @@ export const clients = {
     apiClient.patch<ClientRead>(`/clients/${id}`, data).then((r) => r.data),
 
   delete: (id: string) => apiClient.delete(`/clients/${id}`),
+
+  search: (params: {
+    nom?: string
+    prenom?: string
+    email?: string
+    telephone?: string
+    inscription_date?: string
+  }) => apiClient.get<ClientRead[]>('/clients/search', { params }).then((r) => r.data),
+
+  agenda: (id: string) =>
+    apiClient.get<EventRead[]>(`/clients/${id}/agenda`).then((r) => r.data),
 }
 
 // Reports
@@ -146,4 +185,44 @@ export const reports = {
 export const dashboard = {
   get: (range: string = 'week') =>
     apiClient.get<DashboardResponse>('/dashboard', { params: { range } }).then((r) => r.data),
+}
+
+// Students (CSM — clients de type 'apprenant')
+export const students = {
+  list: (params?: { learner_status?: LearnerStatus; progress_status?: ProgressStatus }) =>
+    apiClient.get<StudentRead[]>('/students', { params }).then((r) => r.data),
+
+  getProfile: (clientId: string) =>
+    apiClient.get<StudentProfileRead>(`/students/${clientId}/profile`).then((r) => r.data),
+
+  upsertProfile: (clientId: string, data: StudentProfileWrite) =>
+    apiClient.patch<StudentProfileRead>(`/students/${clientId}/profile`, data).then((r) => r.data),
+
+  listNotes: (clientId: string) =>
+    apiClient.get<StudentNoteRead[]>(`/students/${clientId}/notes`).then((r) => r.data),
+
+  addNote: (clientId: string, data: StudentNoteCreate) =>
+    apiClient.post<StudentNoteRead>(`/students/${clientId}/notes`, data).then((r) => r.data),
+
+  getReminderSettings: () =>
+    apiClient.get<ReminderSettingsResponse>('/students/reminder-settings').then((r) => r.data),
+
+  updateReminderSettings: (data: ReminderSettingsUpdateRequest) =>
+    apiClient.put<ReminderSettingsResponse>('/students/reminder-settings', data).then((r) => r.data),
+}
+
+// Tasks
+export const tasks = {
+  list: (params?: { status?: TaskStatus; priority?: TaskPriority; client_id?: string }) =>
+    apiClient.get<TaskRead[]>('/tasks', { params }).then((r) => r.data),
+
+  create: (data: TaskCreate) => apiClient.post<TaskRead>('/tasks', data).then((r) => r.data),
+
+  update: (id: string, data: TaskUpdate) =>
+    apiClient.patch<TaskRead>(`/tasks/${id}`, data).then((r) => r.data),
+}
+
+// Formations
+export const formations = {
+  list: () => apiClient.get<FormationRead[]>('/formations').then((r) => r.data),
 }

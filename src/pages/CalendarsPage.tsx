@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useCalendars, useCreateCalendar, useUpdateCalendar, useDeleteCalendar } from '../hooks/useCalendars'
-import type { CalendarRead } from '../api/types'
+import type { CalendarRead } from '../api/models'
 
 const schema = z.object({
   name: z.string().min(1, 'Nom requis'),

@@ -12,8 +12,9 @@ import { useAuthStore } from '../store/authStore'
 import { ConflictBanner } from './ConflictBanner'
 import { ConflictGantt } from './ConflictGantt'
 import { SuggestionList } from './SuggestionList'
-import type { EventRead, EventReadWithClient, SlotSuggestion } from '../api/types'
+import type { EventRead, SlotSuggestion } from '../api/models'
 import { localToUTCIso, toLocal } from '../utils/datetime'
+import { clientDisplayName } from '../utils/clientType'
 
 const schema = z
   .object({
@@ -84,8 +85,8 @@ export function EventForm({ event, defaultSuggestion, defaultCalendarId, onSucce
     defaultValues: {
       title: event?.title ?? '',
       calendar_id: defaultCalendarId ?? event?.calendar_id ?? visibleIds[0] ?? cals[0]?.id ?? '',
-      client_id: (event as EventReadWithClient)?.client_id ?? '',
-      billable: (event as EventReadWithClient)?.billable ?? true,
+      client_id: (event as EventRead)?.client_id ?? '',
+      billable: (event as EventRead)?.billable ?? true,
       start: defaultStart,
       end: defaultEnd,
       all_day: event?.all_day ?? false,
@@ -118,6 +119,7 @@ export function EventForm({ event, defaultSuggestion, defaultCalendarId, onSucce
       calendar_ids: cals.map((c) => c.id),
       start_utc: localToUTCIso(new Date(watchStart), timezone),
       end_utc: localToUTCIso(new Date(watchEnd), timezone),
+      buffer_min: 30,
       exclude_event_id: event?.id,
     })
     return reset
@@ -136,6 +138,7 @@ export function EventForm({ event, defaultSuggestion, defaultCalendarId, onSucce
       rrule: values.rrule || null,
       client_id: values.client_id || null,
       billable: values.billable,
+      status: event?.status ?? 'confirmed',
     }
 
     try {
@@ -192,7 +195,7 @@ export function EventForm({ event, defaultSuggestion, defaultCalendarId, onSucce
             <option value="">— Aucun —</option>
             {clientList.map((c) => (
               <option key={c.id} value={c.id}>
-                {c.name}
+                {clientDisplayName(c)}
               </option>
             ))}
           </select>
@@ -216,7 +219,7 @@ export function EventForm({ event, defaultSuggestion, defaultCalendarId, onSucce
                 style={{ backgroundColor: selectedClient.color }}
                 aria-hidden
               />
-              {selectedClient.name}
+              {clientDisplayName(selectedClient)}
             </p>
           )}
         </div>
@@ -358,7 +361,7 @@ export function EventForm({ event, defaultSuggestion, defaultCalendarId, onSucce
       {checking && (
         <p className="text-xs text-gray-400 animate-pulse">Vérification des conflits…</p>
       )}
-      <ConflictBanner conflicts={conflicts} clientName={selectedClient?.name} />
+      <ConflictBanner conflicts={conflicts} clientName={selectedClient ? clientDisplayName(selectedClient) : undefined} />
       {conflicts.length > 0 && watchStart && watchEnd && (
         <ConflictGantt
           newTitle={watchTitle}

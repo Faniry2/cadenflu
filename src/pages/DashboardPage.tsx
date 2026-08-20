@@ -7,7 +7,8 @@ import { useCalendars } from '../hooks/useCalendars'
 import { useAuthStore } from '../store/authStore'
 import { CalendarDayColumn } from '../components/CalendarDayColumn'
 import { DateTime } from 'luxon'
-import type { DayScore } from '../api/types'
+import type { DayScore } from '../api/models'
+import { clientDisplayName } from '../utils/clientType'
 
 function ScoreBar({ score }: { score: number }) {
   const color = score >= 80 ? 'bg-green-500' : score >= 50 ? 'bg-yellow-400' : 'bg-red-400'
@@ -123,7 +124,7 @@ export function DashboardPage() {
                 return (
                   <li key={c.id} className="text-xs text-orange-700">
                     <Link to={`/clients/${c.id}`} className="font-medium hover:underline">
-                      {c.name}
+                      {clientDisplayName(c)}
                     </Link>{' '}
                     — {hours.toFixed(1)}h / {c.forfait_hours}h ({pct}%)
                     {pct >= 100 && <span className="ml-1 font-bold text-red-600">DÉPASSÉ</span>}
@@ -172,7 +173,7 @@ export function DashboardPage() {
                           to={`/clients/${c.id}`}
                           className="font-medium text-gray-800 hover:text-indigo-600 truncate"
                         >
-                          {c.name}
+                          {clientDisplayName(c)}
                         </Link>
                       </div>
                       <span className="text-gray-500 flex-shrink-0 ml-2">
@@ -231,7 +232,7 @@ export function DashboardPage() {
                         )}
                         <span className="font-medium text-red-800">
                           {conf.severity ?? 'Conflit'}
-                          {conflictClient && ` — ${conflictClient.name}`}
+                          {conflictClient && ` — ${clientDisplayName(conflictClient)}`}
                         </span>
                       </div>
                       {conf.event_id && (

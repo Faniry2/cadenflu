@@ -1,7 +1,7 @@
 import { useQueries } from '@tanstack/react-query'
 import { DateTime } from 'luxon'
 import { events as eventsApi } from '../api/endpoints'
-import type { ConflictDetail, EventRead } from '../api/types'
+import type { ConflictDetail, EventRead } from '../api/models'
 import { useAuthStore } from '../store/authStore'
 
 const severityBar: Record<string, string> = {

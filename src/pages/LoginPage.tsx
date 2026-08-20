@@ -24,18 +24,29 @@ export function LoginPage() {
   const { setTokens } = useAuthStore()
   const [mode, setMode] = useState<'login' | 'register'>('login')
   const [apiError, setApiError] = useState<string | null>(null)
+  const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null)
+  const [registeredEmail, setRegisteredEmail] = useState<string | null>(null)
+  const [resendStatus, setResendStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
   const loginForm = useForm<LoginForm>({ resolver: zodResolver(loginSchema) })
   const registerForm = useForm<RegisterForm>({ resolver: zodResolver(registerSchema) })
 
   const handleLogin = async (values: LoginForm) => {
     setApiError(null)
+    setUnverifiedEmail(null)
+    setResendStatus('idle')
     try {
       const tokens = await auth.login(values.email, values.password)
       setTokens(tokens.access_token, tokens.refresh_token)
       navigate('/', { replace: true })
-    } catch {
-      setApiError('Email ou mot de passe incorrect.')
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { detail?: unknown }; status?: number } }
+      if (axiosErr?.response?.status === 403 && axiosErr?.response?.data?.detail === 'email_not_verified') {
+        setUnverifiedEmail(values.email)
+        setApiError('Votre email n\'est pas encore vérifié. Vérifiez votre boîte de réception.')
+      } else {
+        setApiError('Email ou mot de passe incorrect.')
+      }
     }
   }
 
@@ -43,11 +54,19 @@ export function LoginPage() {
     setApiError(null)
     try {
       await auth.register(values)
-      const tokens = await auth.login(values.email, values.password)
-      setTokens(tokens.access_token, tokens.refresh_token)
-      navigate('/', { replace: true })
+      setRegisteredEmail(values.email)
     } catch {
       setApiError('Erreur lors de la création du compte. L\'email est peut-être déjà utilisé.')
+    }
+  }
+
+  const handleResend = async (email: string) => {
+    setResendStatus('sending')
+    try {
+      await auth.resendVerification(email)
+      setResendStatus('sent')
+    } catch {
+      setResendStatus('error')
     }
   }
 
@@ -61,13 +80,46 @@ export function LoginPage() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
+          {registeredEmail ? (
+            <div className="text-center">
+              <h2 className="text-lg font-semibold text-gray-900 mb-2">Vérifiez votre email</h2>
+              <p className="text-sm text-gray-600 mb-4">
+                Un email de vérification a été envoyé à <strong>{registeredEmail}</strong>. Cliquez sur le
+                lien qu'il contient pour activer votre compte, puis connectez-vous.
+              </p>
+              {resendStatus === 'sent' && (
+                <p className="mb-3 text-sm text-green-700">Email renvoyé avec succès.</p>
+              )}
+              {resendStatus === 'error' && (
+                <p className="mb-3 text-sm text-red-600">Impossible de renvoyer l'email, réessayez plus tard.</p>
+              )}
+              <button
+                onClick={() => handleResend(registeredEmail)}
+                disabled={resendStatus === 'sending'}
+                className="text-sm font-medium text-indigo-600 hover:text-indigo-700 disabled:opacity-50"
+              >
+                {resendStatus === 'sending' ? 'Envoi…' : "Renvoyer l'email de vérification"}
+              </button>
+              <button
+                onClick={() => {
+                  setRegisteredEmail(null)
+                  setResendStatus('idle')
+                  setMode('login')
+                }}
+                className="block w-full mt-4 py-2.5 px-4 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
+              >
+                Aller à la connexion
+              </button>
+            </div>
+          ) : (
+          <>
           {/* Tabs */}
           <div className="flex rounded-lg bg-gray-100 p-1 mb-6">
             <button
               className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-colors ${
                 mode === 'login' ? 'bg-white shadow text-gray-900' : 'text-gray-500'
               }`}
-              onClick={() => { setMode('login'); setApiError(null) }}
+              onClick={() => { setMode('login'); setApiError(null); setUnverifiedEmail(null) }}
             >
               Connexion
             </button>
@@ -75,7 +127,7 @@ export function LoginPage() {
               className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-colors ${
                 mode === 'register' ? 'bg-white shadow text-gray-900' : 'text-gray-500'
               }`}
-              onClick={() => { setMode('register'); setApiError(null) }}
+              onClick={() => { setMode('register'); setApiError(null); setUnverifiedEmail(null) }}
             >
               Inscription
             </button>
@@ -84,6 +136,22 @@ export function LoginPage() {
           {apiError && (
             <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700" role="alert">
               {apiError}
+              {unverifiedEmail && (
+                <div className="mt-2">
+                  {resendStatus === 'sent' ? (
+                    <span className="text-green-700">Email renvoyé avec succès.</span>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleResend(unverifiedEmail)}
+                      disabled={resendStatus === 'sending'}
+                      className="font-medium text-red-700 underline hover:text-red-800 disabled:opacity-50"
+                    >
+                      {resendStatus === 'sending' ? 'Envoi…' : "Renvoyer l'email de vérification"}
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           )}
 
@@ -199,6 +267,8 @@ export function LoginPage() {
                 {registerForm.formState.isSubmitting ? 'Création…' : 'Créer un compte'}
               </button>
             </form>
+          )}
+          </>
           )}
         </div>
       </div>

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useEvents } from '../hooks/useEvents'
 import { useAvailability } from '../hooks/useAvailability'
 import { utcIsoToLocalDate, localToUTCIso } from '../utils/datetime'
-import type { CalendarRead, ClientRead, EventReadWithClient } from '../api/types'
+import type { CalendarRead, ClientRead, EventRead } from '../api/models'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 const localizer = luxonLocalizer(DateTime, { firstDayOfWeek: 1 })
@@ -31,7 +31,7 @@ interface RbcEvent {
   start: Date
   end: Date
   allDay: boolean
-  resource: EventReadWithClient | { start_utc: string; end_utc: string; duration_min: number }
+  resource: EventRead | { start_utc: string; end_utc: string; duration_min: number }
 }
 
 interface Props {
@@ -69,7 +69,7 @@ export function CalendarDayColumn({ cal, calMap, clientMap, timezone, todayRange
         start: utcIsoToLocalDate(e.start_utc, timezone),
         end: utcIsoToLocalDate(e.end_utc, timezone),
         allDay: e.all_day,
-        resource: e as EventReadWithClient,
+        resource: e as EventRead,
       })),
     [eventsData, timezone]
   )
@@ -89,7 +89,7 @@ export function CalendarDayColumn({ cal, calMap, clientMap, timezone, todayRange
 
   const eventPropGetter = useCallback(
     (event: RbcEvent) => {
-      const e = event.resource as EventReadWithClient
+      const e = event.resource as EventRead
       const client = e.client_id ? clientMap[e.client_id] : undefined
       const color = client?.color ?? calMap[e.calendar_id]?.color ?? cal.color
       return { style: { backgroundColor: color, borderColor: color, color: '#fff' } }

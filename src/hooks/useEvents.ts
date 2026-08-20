@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { events } from '../api/endpoints'
-import type { EventCreate, EventCreateWithClient, EventUpdate } from '../api/types'
+import type { EventCreate, EventUpdate } from '../api/models'
 
 export function useEvents(params: { from_utc: string; to_utc: string; calendar_ids?: string[] }) {
   return useQuery({
@@ -23,7 +23,7 @@ export function useEvent(id: string) {
 export function useCreateEvent() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (data: EventCreate | EventCreateWithClient) => events.create(data as EventCreate),
+    mutationFn: (data: EventCreate) => events.create(data),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['events'] }),
   })
 }

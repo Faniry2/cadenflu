@@ -60,7 +60,7 @@ export function ReportsPage() {
             </div>
             <div className="bg-white rounded-xl border border-gray-200 p-5 text-center">
               <p className="text-3xl font-bold text-gray-900">
-                {data.total_amount_estimated !== null
+                {data.total_amount_estimated != null
                   ? data.total_amount_estimated.toLocaleString('fr-FR', {
                       style: 'currency',
                       currency: 'EUR',
@@ -103,7 +103,7 @@ export function ReportsPage() {
                       {row.hours.toFixed(1)}h
                     </td>
                     <td className="px-4 py-3 text-right text-gray-600">
-                      {row.amount_estimated !== null
+                      {row.amount_estimated != null
                         ? row.amount_estimated.toLocaleString('fr-FR', {
                             style: 'currency',
                             currency: 'EUR',
@@ -121,7 +121,7 @@ export function ReportsPage() {
                   </td>
                   <td className="px-4 py-3 text-right text-gray-800">{data.total_hours.toFixed(1)}h</td>
                   <td className="px-4 py-3 text-right text-gray-800">
-                    {data.total_amount_estimated !== null
+                    {data.total_amount_estimated != null
                       ? data.total_amount_estimated.toLocaleString('fr-FR', {
                           style: 'currency',
                           currency: 'EUR',

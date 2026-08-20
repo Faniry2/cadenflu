@@ -1,5 +1,5 @@
 import axios, { type InternalAxiosRequestConfig } from 'axios'
-import { TokenResponse } from './types'
+import type { TokenResponse } from './models'
 
 const BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8091/api'
 

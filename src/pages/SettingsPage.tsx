@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuthStore } from '../store/authStore'
+import { ReminderSettingsSection } from '../components/ReminderSettingsSection'
 
 const schema = z.object({
   timezone: z.string().min(1),
@@ -98,6 +99,11 @@ export function SettingsPage() {
             )}
           </div>
         </form>
+
+        <hr className="border-gray-100" />
+
+        {/* Rappels de suivi (CSM) */}
+        <ReminderSettingsSection />
       </div>
     </div>
   )

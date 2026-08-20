@@ -6,7 +6,7 @@ import { useEvents } from '../hooks/useEvents'
 import { useAuthStore } from '../store/authStore'
 import { useCalendarStore } from '../store/calendarStore'
 import { toLocal } from '../utils/datetime'
-import type { CalendarRead, EventRead } from '../api/types'
+import type { CalendarRead, EventRead } from '../api/models'
 
 const LABEL_W = 172  // px — colonne label gauche
 const ROW_H    = 36  // px — hauteur de chaque ligne événement

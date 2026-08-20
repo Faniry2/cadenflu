@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { calendars } from '../api/endpoints'
-import type { CalendarCreate, CalendarUpdate, ShareCreate } from '../api/types'
+import type { CalendarCreate, CalendarUpdate, ShareCreate } from '../api/models'
 import { useCalendarStore } from '../store/calendarStore'
 
 const QUERY_KEY = ['calendars']

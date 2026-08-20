@@ -1,4 +1,4 @@
-import type { SlotSuggestion } from '../api/types'
+import type { SlotSuggestion } from '../api/models'
 import { formatDateTime } from '../utils/datetime'
 import { useAuthStore } from '../store/authStore'
 

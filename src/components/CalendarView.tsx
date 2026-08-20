@@ -11,7 +11,8 @@ import { useUpdateEvent } from '../hooks/useEvents'
 import { useCalendarStore } from '../store/calendarStore'
 import { useAuthStore } from '../store/authStore'
 import { utcIsoToLocalDate, toLocal, localToUTCIso } from '../utils/datetime'
-import type { EventReadWithClient } from '../api/types'
+import type { EventRead } from '../api/models'
+import { clientDisplayName } from '../utils/clientType'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 
@@ -41,7 +42,7 @@ interface RbcEvent {
   start: Date
   end: Date
   allDay: boolean
-  resource: EventReadWithClient
+  resource: EventRead
 }
 
 function EventItem({
@@ -91,6 +92,7 @@ export function CalendarView() {
   const { data: cals = [] } = useCalendars()
   const { data: clientList = [] } = useClients()
   const updateEvent = useUpdateEvent()
+  const [apprenantsOnly, setApprenantsOnly] = useState(false)
 
   const visibility = useCalendarStore((s) => s.visibility)
   const visibleIds = useMemo(
@@ -137,15 +139,17 @@ export function CalendarView() {
 
   const rbcEvents = useMemo(
     () =>
-      eventsData.map((e) => ({
-        id: e.id,
-        title: e.title,
-        start: utcIsoToLocalDate(e.start_utc, timezone),
-        end: utcIsoToLocalDate(e.end_utc, timezone),
-        allDay: e.all_day,
-        resource: e as EventReadWithClient,
-      })),
-    [eventsData, timezone]
+      eventsData
+        .filter((e) => !apprenantsOnly || clientMap[e.client_id ?? '']?.client_type === 'apprenant')
+        .map((e) => ({
+          id: e.id,
+          title: e.title,
+          start: utcIsoToLocalDate(e.start_utc, timezone),
+          end: utcIsoToLocalDate(e.end_utc, timezone),
+          allDay: e.all_day,
+          resource: e as EventRead,
+        })),
+    [eventsData, timezone, apprenantsOnly, clientMap]
   )
 
   const eventPropGetter = useCallback(
@@ -169,7 +173,7 @@ export function CalendarView() {
         <EventItem
           event={event}
           clientColor={client?.color}
-          clientName={client?.name}
+          clientName={client ? clientDisplayName(client) : undefined}
           clientTimezone={client?.timezone}
           userTimezone={timezone}
         />
@@ -215,11 +219,22 @@ export function CalendarView() {
 
   return (
     <div className="flex flex-col" style={{ height: '100%', minHeight: '400px' }}>
-      {isLoading && (
-        <div className="text-center text-xs text-gray-400 py-1 animate-pulse">
-          Chargement…
-        </div>
-      )}
+      <div className="flex items-center justify-between gap-2 pb-2">
+        {isLoading ? (
+          <div className="text-xs text-gray-400 animate-pulse">Chargement…</div>
+        ) : (
+          <span />
+        )}
+        <label className="flex items-center gap-1.5 text-xs text-gray-600 flex-shrink-0">
+          <input
+            type="checkbox"
+            checked={apprenantsOnly}
+            onChange={(e) => setApprenantsOnly(e.target.checked)}
+            className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+          />
+          Apprenants uniquement
+        </label>
+      </div>
       <DnDCalendar
         localizer={localizer}
         events={rbcEvents}

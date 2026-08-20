@@ -1,4 +1,4 @@
-import type { ConflictDetail } from '../api/types'
+import type { ConflictDetail } from '../api/models'
 import { cn } from '../utils/cn'
 
 interface Props {

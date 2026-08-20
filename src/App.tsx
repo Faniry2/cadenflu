@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useAuthStore } from './store/authStore'
 import { Layout } from './components/Layout'
 import { LoginPage } from './pages/LoginPage'
+import { VerifyEmailPage } from './pages/VerifyEmailPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { CalendarPage } from './pages/CalendarPage'
 import { EventNewPage } from './pages/EventNewPage'
@@ -13,6 +14,7 @@ import { CalendarSharePage } from './pages/CalendarSharePage'
 import { SettingsPage } from './pages/SettingsPage'
 import { ClientsPage } from './pages/ClientsPage'
 import { ClientDetailPage } from './pages/ClientDetailPage'
+import { TasksPage } from './pages/TasksPage'
 import { ReportsPage } from './pages/ReportsPage'
 import { MultiCalendarPage } from './pages/MultiCalendarPage'
 import { GanttPage } from './pages/GanttPage'
@@ -35,6 +37,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/verify-email" element={<VerifyEmailPage />} />
       <Route
         path="/*"
         element={
@@ -48,6 +51,7 @@ function AppRoutes() {
                 <Route path="events/:id" element={<EventDetailPage />} />
                 <Route path="clients" element={<ClientsPage />} />
                 <Route path="clients/:id" element={<ClientDetailPage />} />
+                <Route path="tasks" element={<TasksPage />} />
                 <Route path="reports" element={<ReportsPage />} />
                 <Route path="agenda" element={<MultiCalendarPage />} />
                 <Route path="gantt" element={<GanttPage />} />
