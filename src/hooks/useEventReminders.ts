@@ -36,7 +36,6 @@ function sendNotification(title: string, startLabel: string) {
     body: `Commence à ${startLabel} (dans ${ALERT_MIN} min)`,
     icon: '/favicon.ico',
     tag:  `cadenflu-reminder-${title}-${startLabel}`,
-    renotify: false,
   })
 }
 
